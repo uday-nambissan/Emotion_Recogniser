@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'Favicon/apple-touch-icon.png' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'Favicon/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'Favicon/favicon-16x16.png' %}">
+<link rel="manifest" href="{%static 'Favicon/site.webmanifest' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMOTION RECOGNISER</title>
+    </head>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin:0;
+            padding:0;
+            font-family: sans-serif;
+            color:white;
+        }
+        .heading{
+            padding: 20px;
+            width: fit-content;
+            text-shadow: 5px 5px 5px black;
+            font-weight: bolder;
+            font-family: monospace ;
+        }
+
+        .background{
+            width: 100%;
+            height: 100vh;
+            background-image: linear-gradient(0deg, rgba(1,1,3,1) 0%, rgba(0,0,0,0.5368522408963585) 79%), url("{% static 'waves.png' %}");
+            background-size: cover;
+            background-position: center;
+        }
+        .content{
+            width:100%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            
+        }
+        .content h2{
+            font-size: 35px;
+            text-shadow: 5px 5px 5px black;
+        }
+        .result{
+            font-size: 20px;
+            padding: 5px;
+            text-shadow: 5px 5px 5px black;
+        }
+        input{
+            display:none;
+        }
+        a{
+            text-decoration: none;
+        }
+        .label{
+            font-size: large;
+            width:200px;
+            margin:40px;
+            background: transparent;
+            font-weight: bolder;
+            border:2px solid #12AC18;
+            padding: 17px;
+            text-align: center;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 3px 3px 5px black;
+            text-shadow: 5px 5px 5px black;
+        }
+        .label:hover{
+            background-color: #12AC18;
+        }
+        img{
+            width: 25px;
+        }
+    </style>
+
+<body>
+    <div class="background">
+    <header>
+        
+    <h1 class="heading">
+        <img src="{% static 'icon.png' %}" alt="icon">   
+       EMOTION RECOGNISER
+    </h1>
+    </header>
+   <div class="content">
+    
+   {% if url %}
+   <p class="result"><audio controls>
+    <source src="{{url}}" type="audio/wav">
+  </audio> </p>
+  <p class="result">The emotion is {{result}}</p>
+  <button class="label"><a href="{{ request.get_full_path }}">Add another file</a></button>
+  {% else %}
+  <h2>UPLOAD YOUR AUDIO FILE BELOW</h2>
+    <p class="form">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" id="file" name="audio" accept="audio/wav" >
+            <label for="file" class="label">UPLOAD FILE</label>
+            <button class="label button" disabled>CHECK EMOTION</button>
+        </form>
+        <p id="warn"></p>
+       </p>
+       
+   {% endif %} 
+</div>
+</div>
+</body>
+<script >
+    let input = document.getElementById("file");
+let button = document.querySelector(".button");
+input.addEventListener("change", btn);
+
+function btn() {
+    if (document.getElementById("file").value === "") {
+        button.disabled = true; 
+    } else {
+        button.disabled = false; 
+    }
+}
+</script>
+</html>
