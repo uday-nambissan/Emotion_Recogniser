@@ -42,6 +42,6 @@ def home(request):
 
 
 
-    return render(request, "Project.html",context)
+    return render(request, "index.html",context)
 
 
